@@ -5,9 +5,3 @@
   <input type="text" value="Hello there">
   <input type="submit" value="Go">
 </form>
-<div id="other">
-  Trigger the handler
-</div>
-<%= form_tag({action: :upload}, multipart: true) do %>
-  <%= file_field_tag 'picture' %>
-<% end %>
