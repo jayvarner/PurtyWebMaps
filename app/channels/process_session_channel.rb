@@ -10,7 +10,6 @@ class ProcessSessionChannel < ApplicationCable::Channel
   end
 
   def upload_start()
-      puts "\n\n\nWHAT!!!\n\n\n\n"
       ProcessSessionChannel.upload_start(uuid)
   end
 end
