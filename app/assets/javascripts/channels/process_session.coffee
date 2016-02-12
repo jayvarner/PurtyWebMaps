@@ -1,4 +1,4 @@
-App.process = App.cable.subscriptions.create "ProcessChannel",
+App.process_session = App.cable.subscriptions.create "ProcessSessionChannel",
   connected: ->
     # Called when the subscription is ready for use on the server
 
