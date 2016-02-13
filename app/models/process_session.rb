@@ -1,7 +1,7 @@
 class ProcessSession
     def self.start(uuid)
         ActionCable.server.broadcast "smartperson_#{uuid}", {
-            action: "upload_start", msg: "Uploading file(s) and you are#{uuid}"
+            action: "upload_start", msg: "Uploading file(s) and you are #{uuid}"
         }
     end
 

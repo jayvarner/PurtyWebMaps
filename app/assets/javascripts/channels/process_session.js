@@ -5,11 +5,10 @@ App.process_session = App.cable.subscriptions.create("ProcessSessionChannel", {
     },
     received: function(data) {
 
-        // alert('what?');
         // var ref, source, target;
         // App.board.position("start");
         // App.board.orientation(data.msg);
-        return this.printMessage("Game started! You play as.");
+        return this.printMessage("Game started! You play as" + data.msg);
     },
     printMessage: function(message) {
         return $("#messages").append("<p>" + message + "</p>");
