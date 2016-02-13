@@ -14,6 +14,7 @@ $(function() {
   //   })(this)
   // };
   $( "#target" ).submit(function( event ) {
+      alert('so this works')
     //   return App.process_session.start("upload_start", "the fuck");
     App.process_session.perform("upload_start", "the fuck");
   });

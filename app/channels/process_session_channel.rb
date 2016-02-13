@@ -2,14 +2,14 @@
 class ProcessSessionChannel < ApplicationCable::Channel
   def subscribed
     stream_from "smartperson_#{uuid}"
-    ProcessSession.start(uuid)
+    ProcessSession.start(uuid, 'foo')
   end
 
   def unsubscribed
     puts "bye"
   end
 
-  def upload_start()
-      ProcessSessionChannel.upload_start(uuid)
+  def upload_start(data)
+      ProcessSession.upload_start(uuid, data)
   end
 end
