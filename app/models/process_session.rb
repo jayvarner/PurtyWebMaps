@@ -1,15 +1,15 @@
 class ProcessSession
-    def self.start(uuid, foo)
-        puts "\n\n\n\n\nblahblahblah\n\n\n\n\n"
+    def self.start(uuid)
+        puts "\n\n\n\n\n#{uuid}\n\n\n\n\n"
         ActionCable.server.broadcast "smartperson_#{uuid}", {
-            action: "start", msg: "Uploading file(s) and you are #{uuid}, #{foo}"
+            action: "start", msg: uuid
         }
     end
 
-    def self.upload_start(uuid, data)
+    def self.upload_start(uuid)
         puts "\n\n\n\n\ngot here\n\n\n\n\n"
         ActionCable.server.broadcast "smartperson_#{uuid}", {
-            action: "upload_start", msg: 'fucking eh'
+            action: "upload_start", msg: "fuckin' eh"
         }
     end
 end

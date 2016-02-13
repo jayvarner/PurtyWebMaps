@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
     root to: "welcome#index"
     mount ActionCable.server => "/cable"
-    post "/upload/create" => "upload#create"
+    post "/welcome/create" => "welcome#create"
 end

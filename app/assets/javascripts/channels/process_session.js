@@ -1,20 +1,16 @@
 App.process_session = App.cable.subscriptions.create("ProcessSessionChannel", {
 
-    connected: function() {
-        return this.printMessage("Well hello!");
+    connected: function(data) {
+        // whatever
     },
     received: function(data) {
-        alert(data.action);
-        switch (data.action) {
-            case "start":
-                return this.printMessage('start');
-
-            case "upload_start":
-                return this.printMessage('upload_start');
+        alert(data.action + " " + data.msg);
+        if (data.action === 'start'){
+            $('#session_uuid').val('smartperson_' + data.msg);
         }
-        // var ref, source, target;
-        // App.board.position("start");
-        // App.board.orientation(data.msg);
+        else if (data.action === "upload_start") {
+            return this.printMessage(data.msg);
+        }
 
     },
     printMessage: function(message) {

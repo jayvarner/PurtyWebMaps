@@ -1,15 +1,15 @@
 
 <div id="messages"></div>
 
-<form id="target">
-  <input type="text" value="Hello there">
-  <input type="submit" value="Go">
-</form>
 <% flash.each do |key, msg| %>
     <%= content_tag :div, msg, :class => [key, " message"], :id => "notice_#{key}" %>
 <% end %>
-<%= form_tag '/upload/create', { :multipart => true } do %>
+<% if flash[:notice] %>
+  <p id="notice"><%= flash[:notice] %></p>
+<% end %>
+<%= form_tag '/welcome/create', { :multipart => true, :id => 'target' } do %>
     <p>
+        <%= hidden_field_tag 'session[uuid]'%>
     <%= file_field_tag 'upload[file]' %>
     </p>
     <p>
