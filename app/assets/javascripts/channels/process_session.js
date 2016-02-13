@@ -4,11 +4,12 @@ App.process_session = App.cable.subscriptions.create("ProcessSessionChannel", {
         // whatever
     },
     received: function(data) {
-        alert(data.action + " " + data.msg);
         if (data.action === 'start'){
             $('#session_uuid').val('smartperson_' + data.msg);
+            return this.printMessage(data.msg);
         }
         else if (data.action === "upload_start") {
+            alert(data.action + " " + data.msg);
             return this.printMessage(data.msg);
         }
 
