@@ -15,6 +15,7 @@ $(function() {
   // };
   $( "#target" ).submit(function( event ) {
       var uuid = $('#session_uuid').val();
+      console.log(uuid)
     //   return App.process_session.start("upload_start", "the fuck");
     App.process_session.perform("upload_start", uuid);
   });

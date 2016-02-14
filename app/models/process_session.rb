@@ -2,19 +2,7 @@ class ProcessSession
     def self.start(uuid)
         puts "\n\n\n\n\n#{uuid}\n\n\n\n\n"
         ActionCable.server.broadcast "smartperson_#{uuid}", {
-            action: "start", msg: "We're starting.."
-        }
-        sleep(5)
-        ActionCable.server.broadcast "smartperson_#{uuid}", {
-            action: "start", msg: 'Still going'
-        }
-        sleep(5)
-        ActionCable.server.broadcast "smartperson_#{uuid}", {
-            action: "start", msg: 'And still doing stuff'
-        }
-        sleep(5)
-        ActionCable.server.broadcast "smartperson_#{uuid}", {
-            action: "start", msg: 'All done'
+            action: "start", msg: uuid
         }
     end
 
