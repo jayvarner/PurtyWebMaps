@@ -1,7 +1,6 @@
 class RasterProcessesController < ApplicationController
     def create
         # name = params[:upload][:file].original_filename
-        uuid = params[:session][:uuid]
         # directory = "public/uploads"
         # path = File.join(directory, name)
         uploader = FileUpload.create
