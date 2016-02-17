@@ -56,5 +56,5 @@ Rails.application.configure do
   # config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # Set Action Cable server url for consumer connection
-  config.action_cable.url = 'ws://localhost:28080'
+  # config.actid94fd96d-8679-49ae-a72a-61a2df6ea7econ_cable.url = 'ws://localhost:28080'
 end

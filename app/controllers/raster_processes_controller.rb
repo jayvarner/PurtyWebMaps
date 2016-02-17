@@ -1,4 +1,9 @@
 class RasterProcessesController < ApplicationController
+    def index
+        if cookies[:user_id].nil? or cookies[:user_id] == 0
+            cookies.signed[:user_id] = SecureRandom.uuid
+        end
+    end
     def create
         # name = params[:upload][:file].original_filename
         # directory = "public/uploads"
