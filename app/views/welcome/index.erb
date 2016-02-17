@@ -1,13 +1,13 @@
 
 <div id="messages"></div>
 
-<% flash.each do |key, msg| %>
+<!-- <% flash.each do |key, msg| %>
     <%= content_tag :div, msg, :class => [key, " message"], :id => "notice_#{key}" %>
 <% end %>
 <% if flash[:notice] %>
   <p id="notice"><%= flash[:notice] %></p>
-<% end %>
-<%= form_tag '/welcome/create', { :multipart => true, :id => 'target' } do %>
+<% end %> -->
+<!-- <%= form_tag '/welcome/create', { :multipart => true, :id => 'target' } do %>
     <p>
         <%= hidden_field_tag 'session[uuid]'%>
     <%= file_field_tag 'upload[file]' %>
@@ -15,4 +15,9 @@
     <p>
     	<%= submit_tag "Upload" %>
     </p>
+<% end %> -->
+
+<%= form_for FileUpload.new do |f| %>
+  <%= f.label :uploaded_file, "Upload paintings:" %>
+  <%= f.file_field :upload[file], multiple: true %>
 <% end %>

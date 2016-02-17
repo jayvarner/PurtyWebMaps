@@ -1,10 +1,11 @@
 App.process_session = App.cable.subscriptions.create("ProcessSessionChannel", {
 
     connected: function(data) {
-        // whatever
+        console.log(data);
     },
     received: function(data) {
         if (data.action === 'start'){
+            console.log(data);
             $('#session_uuid').val('smartperson_' + data.msg);
             return this.printMessage(data.msg);
         }

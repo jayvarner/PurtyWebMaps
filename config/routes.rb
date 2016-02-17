@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-    root to: "welcome#index"
+    resource :raster_processes
+    root to: "raster_processes#index"
     mount ActionCable.server => "/cable"
-    post "/welcome/create" => "welcome#create"
+    post "/raster_processes/create" => "raster_processes#create"
 end

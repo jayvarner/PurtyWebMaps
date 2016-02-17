@@ -22,3 +22,4 @@
 
 # Stuff I've added
 /public/uploads
+*.DS_Store
