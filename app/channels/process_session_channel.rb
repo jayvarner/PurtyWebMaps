@@ -2,12 +2,13 @@
 class ProcessSessionChannel < ApplicationCable::Channel
   def subscribed
     stream_from uuid
+    puts "subscribed"
     ProcessSession.start(uuid)
   end
 
   def connect
       stream_from uuid
-      puts 'cool?'
+      puts "conneted"
       ProcessSession.start(uuid)
     end
 
@@ -15,7 +16,8 @@ class ProcessSessionChannel < ApplicationCable::Channel
     puts "bye"
   end
 
-  def upload_start(uuid)
-      ProcessSession.upload_start(uuid)
+  def upload_start(data)
+      puts "uploaded"
+      ProcessSession.upload_start(uuid, data)
   end
 end

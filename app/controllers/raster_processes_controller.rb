@@ -1,7 +1,7 @@
 class RasterProcessesController < ApplicationController
     def index
         if cookies[:user_id].nil? or cookies[:user_id] == 0
-            cookies.signed[:user_id] = SecureRandom.uuid
+            cookies.signed[:user_id] = {:value => SecureRandom.uuid, :expires => 48.hours.from_now }
         end
     end
     def create
@@ -15,6 +15,7 @@ class RasterProcessesController < ApplicationController
         # uploader.store!(
         #     File.open(path)
         # )
+        ProcessSession.upload_start(params[:session][:uuid], params[:upload][:file].original_filename)
         redirect_to action: :index
     end
 end
