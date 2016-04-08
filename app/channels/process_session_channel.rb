@@ -20,4 +20,8 @@ class ProcessSessionChannel < ApplicationCable::Channel
       puts "uploaded"
       ProcessSession.upload_start(uuid, data)
   end
+
+  def processing(data)
+      puts "processing i guess it does do someting"
+  end
 end

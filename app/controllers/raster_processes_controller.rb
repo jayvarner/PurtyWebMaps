@@ -5,17 +5,15 @@ class RasterProcessesController < ApplicationController
         end
     end
     def create
-        # name = params[:upload][:file].original_filename
-        # directory = "public/uploads"
-        # path = File.join(directory, name)
         uploader = FileUpload.create
         uploader.uuid = params[:session][:uuid]
         uploader.uploaded_file = params[:upload][:file]
         uploader.save
-        # uploader.store!(
-        #     File.open(path)
-        # )
-        ProcessSession.upload_start(params[:session][:uuid], params[:upload][:file].original_filename)
+
+        uploader = RasterUploader.new
+        # uploader.store(params[:upload][:file])
+
         redirect_to action: :index
     end
+
 end

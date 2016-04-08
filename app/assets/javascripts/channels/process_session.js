@@ -10,6 +10,9 @@ App.process_session = App.cable.subscriptions.create("ProcessSessionChannel", {
         else if (data.action === "upload_start") {
             return this.printMessage(data.msg);
         }
+        else if (data.action === "processing") {
+            return this.printMessage(data.msg);
+        }
 
     },
     printMessage: function(message) {

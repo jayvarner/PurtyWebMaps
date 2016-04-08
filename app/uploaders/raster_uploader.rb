@@ -13,9 +13,51 @@ class RasterUploader < CarrierWave::Uploader::Base
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    "uploads/"
+    "uploads/grr"
   end
 
+  # process :update_client
+  #
+  # def update_client
+  #     ProcessSession.upload_start(model.uuid, filename())
+  #     ProcessSession.processing(model.uuid, 'wtf')
+  #     sleep(10)
+  #     ProcessSession.processing(model.uuid, 'blah')
+  #     sleep(10)
+  #     ProcessSession.processing(model.uuid, 'so this is how it goes?')
+  #     sleep(10)
+  # end
+
+  # Create different versions of your uploaded files:
+  version :warp do
+    process :gdalwarp
+  end
+
+  version :translate do
+      process :gdal_translate
+  end
+
+  version :overviews do
+      process :gdaladdo
+  end
+
+  def gdalwarp
+      ProcessSession.processing(model.uuid, "warp #{self.current_path}")
+        warp = "gdalwarp -s_srs #{map.input_cs} -t_srs #{map.output_cs} -r average\
+        #{map.full_path} #{tmp_dir}#{map.tif_file}"
+        system warp
+  # check_exit_status($?.exitstatus, warp)
+  end
+
+  def gdal_translate
+      sleep(5)
+      ProcessSession.processing(model.uuid, 'translate')
+  end
+
+  def gdaladdo
+      sleep(5)
+      ProcessSession.processing(model.uuid, 'overviews')
+  end
   # Provide a default URL as a default if there hasn't been a file uploaded:
   # def default_url
   #   # For Rails 3.1+ asset pipeline compatibility:
