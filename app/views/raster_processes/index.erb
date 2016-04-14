@@ -2,23 +2,24 @@
 <div id="messages"></div>
 
 <% flash.each do |key, msg| %>
-<%= content_tag :div, msg, :class => [key, " message"], :id => "notice_#{key}" %>
+    <%= content_tag :div, msg, :class => [key, " message"], :id => "notice_#{key}" %>
 <% end %>
 <% if flash[:notice] %>
-<p id="notice"><%= flash[:notice] %></p>
+  <p id="notice"><%= flash[:notice] %></p>
 <% end %>
 <%= form_tag '/raster_processes/create', { :multipart => true, :id => 'target' } do %>
-<p>
-    <%= hidden_field_tag 'session[uuid]'%>
+    <p>
+        <%= hidden_field_tag 'session[uuid]'%>
     <%= file_field_tag :file, name: 'upload[file]', :multiple => true %>
-</p>
-<p>
-    <%= submit_tag "Upload" %>
-</p>
+    </p>
+    <p>
+    	<%= submit_tag "Upload" %>
+    </p>
 <% end %>
 
 <script id="template-upload" type="text/x-tmpl">
-    <div class="upload">
-        
-    </div>
+<div class="upload">
+  {%=o.name%}
+  <div class="progress"><div class="bar" style="width: 0%"></div></div>
+</div>
 </script>

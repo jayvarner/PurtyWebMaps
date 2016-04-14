@@ -10,7 +10,7 @@ class RasterProcessesController < ApplicationController
         uploader.uploaded_file = params[:upload][:file]
         uploader.save
 
-        uploader = RasterUploader.new
+        # uploader = RasterUploader.new
         # uploader.store(params[:upload][:file])
 
         redirect_to action: :index

@@ -1,93 +1,37 @@
 # encoding: utf-8
 
 class RasterUploader < CarrierWave::Uploader::Base
+    after :store, :gdal
 
-  # Include RMagick or MiniMagick support:
-  # include CarrierWave::RMagick
-  # include CarrierWave::MiniMagick
+    # Choose what kind of storage to use for this uploader:
+    storage :file
 
-  # Choose what kind of storage to use for this uploader:
-  storage :file
-  # storage :fog
+    def store_dir
+        'uploads'
+    end
 
-  # Override the directory where uploaded files will be stored.
-  # This is a sensible default for uploaders that are meant to be mounted:
-  def store_dir
-    "uploads/grr"
-  end
+    def gdal(_file)
+        local_path = '/mnt/hgfs/data/PurtyWebMaps/public/uploads/'
 
-  # process :update_client
-  #
-  # def update_client
-  #     ProcessSession.upload_start(model.uuid, filename())
-  #     ProcessSession.processing(model.uuid, 'wtf')
-  #     sleep(10)
-  #     ProcessSession.processing(model.uuid, 'blah')
-  #     sleep(10)
-  #     ProcessSession.processing(model.uuid, 'so this is how it goes?')
-  #     sleep(10)
-  # end
+        ProcessSession.processing(model.uuid, "Warping #{original_filename}")
+        warp_cmd = "gdalwarp -s_srs EPSG:2240 -t_srs EPSG:3857 -r average #{local_path}#{original_filename} #{local_path}tmp/#{original_filename}"
+        puts warp_cmd
+        system warp_cmd
 
-  # Create different versions of your uploaded files:
-  version :warp do
-    process :gdalwarp
-  end
+        ProcessSession.processing(model.uuid, "Translating #{original_filename}")
+        translate_cmd = "gdal_translate -co 'TILED=YES' -co 'BLOCKXSIZE=256' -co 'BLOCKYSIZE=256' #{local_path}/tmp/#{original_filename} #{local_path}/processed/#{original_filename}"
+        puts translate_cmd
+        system translate_cmd
 
-  version :translate do
-      process :gdal_translate
-  end
+        ProcessSession.processing(model.uuid, "Adding overveiwes to #{original_filename}")
+        addo_cmd = "gdaladdo -r average #{local_path}/processed/#{original_filename} 2 4 8 16 32"
+        puts current_path
+        system "gdalinfo #{local_path}processed/#{original_filename}"
+        puts addo_cmd
+        system addo_cmd
+        system "gdalinfo #{local_path}processed/#{original_filename}"
 
-  version :overviews do
-      process :gdaladdo
-  end
-
-  def gdalwarp
-      ProcessSession.processing(model.uuid, "warp #{self.current_path}")
-        warp = "gdalwarp -s_srs #{map.input_cs} -t_srs #{map.output_cs} -r average\
-        #{map.full_path} #{tmp_dir}#{map.tif_file}"
-        system warp
-  # check_exit_status($?.exitstatus, warp)
-  end
-
-  def gdal_translate
-      sleep(5)
-      ProcessSession.processing(model.uuid, 'translate')
-  end
-
-  def gdaladdo
-      sleep(5)
-      ProcessSession.processing(model.uuid, 'overviews')
-  end
-  # Provide a default URL as a default if there hasn't been a file uploaded:
-  # def default_url
-  #   # For Rails 3.1+ asset pipeline compatibility:
-  #   # ActionController::Base.helpers.asset_path("fallback/" + [version_name, "default.png"].compact.join('_'))
-  #
-  #   "/images/fallback/" + [version_name, "default.png"].compact.join('_')
-  # end
-
-  # Process files as they are uploaded:
-  # process :scale => [200, 300]
-  #
-  # def scale(width, height)
-  #   # do something
-  # end
-
-  # Create different versions of your uploaded files:
-  # version :thumb do
-  #   process :resize_to_fit => [50, 50]
-  # end
-
-  # Add a white list of extensions which are allowed to be uploaded.
-  # For images you might use something like this:
-  # def extension_white_list
-  #   %w(erb tif zip tar.gz)
-  # end
-
-  # Override the filename of the uploaded files:
-  # Avoid using model.id or version_name here, see uploader/store.rb for details.
-  # def filename
-  #   "something.jpg" if original_filename
-  # end
+        ProcessSession.processing(model.uuid, 'DONE!')
+    end
 
 end
